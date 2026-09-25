@@ -1,0 +1,11 @@
+{
+  "name": "stampd",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["apps/web", "apps/mobile", "packages/core"],
+  "scripts": {
+    "dev": "npm run dev -w @stampd/web",
+    "build": "npm run build -w @stampd/web",
+    "test": "npm run test -w @stampd/core"
+  }
+}
