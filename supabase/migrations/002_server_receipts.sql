@@ -1,7 +1,7 @@
 -- Run after 001_init.sql. Server timestamps, IDs, status, and SHA-256 digest
 -- replace any values supplied by an untrusted browser at insert time.
 create or replace function public.stamp_take_on_insert()
-returns trigger language plpgsql set search_path = public, pg_temp as $$
+returns trigger language plpgsql set search_path = pg_catalog, extensions, public, pg_temp as $$
 begin
   new.id := gen_random_uuid();
   new.short_id := upper(encode(gen_random_bytes(6), 'hex'));
@@ -16,13 +16,18 @@ begin
     'original_text', new.original_text,
     'canonical_text', new.canonical_text,
     'category', new.category,
+    'league', new.league,
     'subject', new.subject,
     'subject_type', new.subject_type,
     'prediction_type', new.prediction_type,
+    'metric', new.metric,
+    'operator', new.operator,
+    'target_value', new.target_value,
     'confidence', new.confidence,
     'criteria', new.resolution_criteria,
     'source', new.resolution_source,
     'season', new.season,
+    'resolve_at', new.resolve_at,
     'visibility', new.visibility,
     'group_id', new.group_id,
     'stamped_at', new.stamped_at
