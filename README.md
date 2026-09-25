@@ -1,8 +1,8 @@
-# STAMPD
+# TAEKS
 
-**Say it. Stamp it. Prove it.**
+**Say it. Lock it. Prove it.**
 
-STAMPD turns a natural-language prediction into a timestamped, immutable receipt that can be shared into any chat.
+TAEKS turns a natural-language prediction into a timestamped, immutable receipt that can be shared into any chat.
 
 ## Current state: prototype
 

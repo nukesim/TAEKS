@@ -1,9 +1,9 @@
 {
-  "name": "STAMPD",
-  "short_name": "STAMPD",
+  "name": "TAEKS",
+  "short_name": "TAEKS",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0c0c0d",
   "theme_color": "#0c0c0d",
-  "description": "Say it. Stamp it. Prove it."
+  "description": "Say it. Lock it. Prove it."
 }
