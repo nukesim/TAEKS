@@ -6,13 +6,12 @@ STAMPD turns a natural-language prediction into a timestamped, immutable receipt
 
 ## Current state: prototype
 
-The browser UI is a local demonstration. Takes and Back/Fade counts live only in
-React state and reset when the page reloads. The two example receipts and their
-counts are sample data. Its `#take=` links only find takes in the current session;
-they are **not** publicly retrievable receipts yet. The displayed browser hash
-is a small non-cryptographic checksum, not proof of an immutable server record.
-The mobile app is a visual starter with haptics, not a connected app. The SQL
-migration is a starting schema and has not been deployed by this repository.
+Without Supabase environment variables, the browser runs the original local
+demo. Its two sample receipts, Back/Fade counts, `#take=` links and checksum are
+local-only and reset on reload. With Supabase configured, the web UI uses email
+magic links, saved takes, server-stamped SHA-256 receipts at `/t/<id>`, and saved
+Back/Fade votes. The mobile app remains a visual starter. The SQL migrations
+are included but are not deployed by this repository.
 
 ## Included prototype features
 
@@ -78,12 +77,33 @@ The production parser should return this shape before a take can be stamped:
 
 **Intended production rule:** a structured interpretation is confirmed before a take is stamped. The database trigger protects the stamped content when the schema is deployed; the current browser prototype has no backend and does not enforce server-side immutability.
 
+## Connect a Supabase project
+
+1. Create a Supabase project. In its SQL editor run `001_init.sql`, then
+   `002_server_receipts.sql` from `supabase/migrations` in order.
+2. Enable Email authentication and add the deployed site URL (and a local URL
+   such as `http://localhost:5173/**`) under Authentication > URL Configuration
+   > Redirect URLs. Configure the Email provider and a mail sender appropriate
+   for users beyond the initial test group.
+3. Copy `apps/web/.env.example` to `apps/web/.env.local` and fill in the project
+   URL and **publishable** key. Never put a Supabase service-role key in a
+   `VITE_` variable. Run `npm install && npm run dev`.
+4. Deploy `apps/web` as a Vite static site (build command `npm run build`,
+   output directory `dist`). Set the same two build-time environment variables.
+   The included Vercel and Netlify rewrites allow `/t/<id>` to serve the app.
+5. Sign in with two emails. Stamp a take with one account, open its `/t/<id>`
+   link in a fresh browser, react with the second account, and confirm the
+   counts and receipt survive a reload.
+
+Email is the first working sign-in method. Apple/Google sign-in, link preview
+images, automatic results, groups, and the native chat share extensions still
+need implementation. A static host will show a generic link preview until a
+server-side image/meta route is added.
+
 ## Next production steps
 
-1. Connect Supabase auth + database to the web client; generate receipts on the server and test row-level access rules.
-2. Replace the deterministic parser with a server-side structured-output LLM endpoint with validation.
-3. Add actual Universal Links / Android App Links using `https://stampd.app/t/<id>`.
-4. Add iOS Share Extension and Android share target.
-5. Add sports-data resolver workers for objective NFL takes.
-6. Add private groups and group leaderboards.
-7. Add Take Battles.
+1. Verify the connected flow against a real Supabase project and review access rules with multiple accounts.
+2. Replace the limited deterministic NFL parser with a validated server-side parser.
+3. Add server-rendered receipt metadata and image previews for chat sharing.
+4. Add Apple/Google sign-in, then Universal Links, Android App Links and native share extensions.
+5. Add sports-data resolvers, private groups, leaderboards and Take Battles.

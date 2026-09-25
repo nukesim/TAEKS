@@ -6,6 +6,6 @@
   "scripts": {
     "dev": "npm run dev -w @stampd/web",
     "build": "npm run build -w @stampd/web",
-    "test": "npm run test -w @stampd/core"
+    "test": "npm run test -w @stampd/core && node --test apps/web/src/lib/receipts.test.js"
   }
 }
