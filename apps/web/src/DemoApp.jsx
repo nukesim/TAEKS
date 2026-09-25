@@ -9,7 +9,7 @@ const seed=[
   {id:'7K2D4Q',canonicalText:'Dallas Cowboys win more than 11 regular-season games',category:'NFL',season:2026,confidence:64,criteria:'Dallas Cowboys finish the 2026 NFL regular season with > 11 wins',stampedAt:'2026-09-24T20:11:00-05:00',status:'LIVE',back:9,fade:21,hash:'42A8DE11'}
 ];
 
-function Logo(){return <div className="logo"><span><Flame size={22} fill="currentColor"/></span>STAMPD</div>}
+function Logo(){return <div className="logo"><span><Flame size={22} fill="currentColor"/></span>TAEKS</div>}
 
 export default function App(){
  const [screen,setScreen]=useState(location.hash.startsWith('#take=')?'receipt':'home');
@@ -18,12 +18,12 @@ export default function App(){
  const analyze=()=>{if(!text.trim())return;setDraft(parseTake(text));};
  const stamp=()=>{ const base={...draft,confidence,id:makeId(),stampedAt:new Date().toISOString(),status:'LIVE',back:0,fade:0}; const take={...base,hash:contentHash(base)}; setTakes(x=>[take,...x]); location.hash=`take=${take.id}`; setScreen('receipt'); setDraft(null); setText(''); };
  const react=(id,key)=>setTakes(ts=>ts.map(t=>t.id===id?{...t,[key]:(t[key]||0)+1}:t));
- const share=async(t)=>{const url=`${location.origin}${location.pathname}#take=${t.id}`; const data={title:`STAMPD: ${t.canonicalText}`,text:`🔥 ${t.canonicalText} — stamped by @bryson`,url}; try{if(navigator.share) await navigator.share(data); else await navigator.clipboard.writeText(url);}catch{}};
+ const share=async(t)=>{const url=`${location.origin}${location.pathname}#take=${t.id}`; const data={title:`TAEKS: ${t.canonicalText}`,text:`🔥 ${t.canonicalText} — locked by @bryson`,url}; try{if(navigator.share) await navigator.share(data); else await navigator.clipboard.writeText(url);}catch{}};
  return <div className="app-shell">
    <header><Logo/><button className="profile-chip">B</button></header>
    {screen==='home' && <main>
-    <section className="hero"><div className="kicker">SAY IT. STAMP IT. PROVE IT.</div><h1>What's your <em>take?</em></h1><p>Turn any prediction into a permanent, timestamped receipt.</p>
-      <div className="composer"><textarea value={text} onChange={e=>setText(e.target.value)} placeholder="Josh Allen wins MVP..." maxLength={180}/><div className="composer-bottom"><span>{text.length}/180</span><button onClick={analyze} disabled={!text.trim()}><Flame size={18} fill="currentColor"/> STAMP IT</button></div></div>
+    <section className="hero"><div className="kicker">SAY IT. LOCK IT. PROVE IT.</div><h1>What's your <em>take?</em></h1><p>Turn any prediction into a permanent, timestamped receipt.</p>
+      <div className="composer"><textarea value={text} onChange={e=>setText(e.target.value)} placeholder="Josh Allen wins MVP..." maxLength={180}/><div className="composer-bottom"><span>{text.length}/180</span><button onClick={analyze} disabled={!text.trim()}><Flame size={18} fill="currentColor"/> LOCK IT</button></div></div>
       <div className="examples">{examples.map(x=><button key={x} onClick={()=>setText(x)}>{x}</button>)}</div>
     </section>
     <section className="feed"><div className="section-title"><div><span>YOUR LIVE TAKES</span><h3>Receipts in progress</h3></div><button>View all</button></div>{takes.map(t=><TakeCard compact key={t.id} take={t} onBack={()=>react(t.id,'back')} onFade={()=>react(t.id,'fade')} onShare={()=>share(t)}/>)}</section>

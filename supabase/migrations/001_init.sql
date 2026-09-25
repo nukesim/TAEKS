@@ -1,4 +1,4 @@
--- STAMPD v1 schema. Designed so the immutable core of a stamped take cannot be updated.
+-- TAEKS v1 schema. Designed so the immutable core of a stamped take cannot be updated.
 create extension if not exists pgcrypto;
 
 create type take_status as enum ('LIVE','HIT','MISS','VOID');

@@ -127,7 +127,7 @@ function ConnectedApp() {
   async function share(take) {
     const url = `${location.origin}/t/${encodeURIComponent(take.id)}`;
     try {
-      if (navigator.share) await navigator.share({ title: `STAMPD: ${take.canonicalText}`, text: `${take.canonicalText} — stamped by @${take.username}`, url });
+      if (navigator.share) await navigator.share({ title: `TAEKS: ${take.canonicalText}`, text: `${take.canonicalText} — locked by @${take.username}`, url });
       else { await navigator.clipboard.writeText(url); setError('Receipt link copied.'); }
     } catch (e) { if (e.name !== 'AbortError') setError('Could not share the receipt.'); }
   }
@@ -136,14 +136,14 @@ function ConnectedApp() {
   const signIn = <form className="sign-in" onSubmit={sendLink}><label htmlFor="email">Sign in to stamp, Back or Fade</label><input id="email" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="Your email" /><button disabled={busy}>Email me a sign-in link</button>{emailSent && <p>Check your inbox for the link.</p>}</form>;
 
   return <div className="app-shell connected">
-    <header><button className="plain-logo" onClick={() => navigate()}><Flame size={22} fill="currentColor" /> STAMPD</button><span className="profile-chip">{username ? username[0].toUpperCase() : '?'}</span></header>
+    <header><button className="plain-logo" onClick={() => navigate()}><Flame size={22} fill="currentColor" /> TAEKS</button><span className="profile-chip">{username ? username[0].toUpperCase() : '?'}</span></header>
     {error && <div className="app-message" role="status">{error}</div>}
     {receiptId ? <main className="receipt-page">
       <button className="back-link" onClick={() => navigate()}><ArrowLeft size={17} /> Back to takes</button>
       {receipt ? <>{card(receipt)}<div className="receipt-actions"><button onClick={() => share(receipt)}>Share receipt</button></div>{!user && signIn}</> : <p>{receiptLoading ? 'Loading receipt…' : 'Receipt unavailable or private.'}</p>}
     </main> : <main>
-      <section className="hero"><div className="kicker">SAY IT. STAMP IT. PROVE IT.</div><h1>What's your <em>take?</em></h1><p>Make a prediction and share its locked receipt.</p>
-        {user ? <><div className="composer"><textarea value={text} onChange={e => setText(e.target.value)} placeholder="Josh Allen wins MVP…" maxLength={180} /><div className="composer-bottom"><span>{text.length}/180</span><button disabled={!text.trim()} onClick={() => setDraft(parseTake(text))}><Flame size={18} /> STAMP IT</button></div></div><button className="quiet-action" onClick={() => supabase.auth.signOut()}>Sign out @{username}</button></>
+      <section className="hero"><div className="kicker">SAY IT. LOCK IT. PROVE IT.</div><h1>What's your <em>take?</em></h1><p>Make a prediction and share its locked receipt.</p>
+        {user ? <><div className="composer"><textarea value={text} onChange={e => setText(e.target.value)} placeholder="Josh Allen wins MVP…" maxLength={180} /><div className="composer-bottom"><span>{text.length}/180</span><button disabled={!text.trim()} onClick={() => setDraft(parseTake(text))}><Flame size={18} /> LOCK IT</button></div></div><button className="quiet-action" onClick={() => supabase.auth.signOut()}>Sign out @{username}</button></>
           : signIn}
       </section>
       <section className="feed"><div className="section-title"><div><span>YOUR LIVE TAKES</span><h3>Receipts in progress</h3></div></div>{takes.length ? takes.map(card) : <p>{user ? 'Your first receipt will appear here.' : 'Sign in to see your takes.'}</p>}</section>

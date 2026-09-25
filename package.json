@@ -1,11 +1,11 @@
 {
-  "name": "stampd",
+  "name": "taeks",
   "private": true,
   "version": "0.1.0",
   "workspaces": ["apps/web", "apps/mobile", "packages/core"],
   "scripts": {
-    "dev": "npm run dev -w @stampd/web",
-    "build": "npm run build -w @stampd/web",
-    "test": "npm run test -w @stampd/core && node --test apps/web/src/lib/receipts.test.js"
+    "dev": "npm run dev -w @taeks/web",
+    "build": "npm run build -w @taeks/web",
+    "test": "npm run test -w @taeks/core && node --test apps/web/src/lib/receipts.test.js"
   }
 }
