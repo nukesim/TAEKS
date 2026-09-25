@@ -5,4 +5,5 @@ dist/
 .env
 .env.*
 !.env.example
+!apps/web/.env.production
 .DS_Store
